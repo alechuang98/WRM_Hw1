@@ -19,7 +19,7 @@ def main():
     t0 = time.time()
     queryParser = QueryParser(args.m)
     vsm = VSM(args.m, k=Param.K, b=Param.B)
-    rocchio = Rocchio(Param.ALPHA, Param.BETA, Param.GAMMA, Param.TOP_K, Param.LAST_K)
+    rocchio = Rocchio(Param.ALPHA, Param.BETA, Param.GAMMA, Param.TOP_K, Param.LAST_K, args.m, args.d)
     ev = Eval(args.m, ansPath="queries/ans_train.csv")
     print("init time", time.time() - t0)
     queries = queryParser.getQueries(args.i)
@@ -33,13 +33,15 @@ def main():
         idf = vsm.getIDF(query)
         tfidf[j] = tf * idf
         q[j] = idf
+    for j in range(len(q)):
+        res[j] = ev.getResult(q[j], tfidf[j])
+    print("[Iter %2d]: %3f" % (-1, ev.test(res)))
 
     for i in range(Param.ITERS):
         t0 = time.time()
         for j in range(len(q)):
-            q[j] = rocchio.update(q[j], tfidf[j])
-            res[j] = ev.getResult(q[j], tfidf[j])
-    ev.output(res, args.o)
+            res[j] = rocchio.update(res[j])
+        ev.output(res, args.o)
 
 
 if __name__ == "__main__":

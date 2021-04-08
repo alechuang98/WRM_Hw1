@@ -23,7 +23,8 @@ class VSM(object):
                 for v in value:
                     ctd[v[0]][indx] += v[1]
         tf = (self.k + 1) * ctd / (ctd + self.k)
-        tf = np.nan_to_num((tf.T / (1 - self.b + self.b * self.fileLen / self.avgLen)).T, 0)
+        # tf = np.nan_to_num((tf.T / (1 - self.b + self.b * self.fileLen / self.avgLen)).T, 0)
+        tf = np.nan_to_num(tf, 0)
         return tf
 
     def getIDF(self, query):

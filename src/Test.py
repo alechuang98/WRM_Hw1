@@ -6,6 +6,7 @@ from VSM import VSM
 from QueryParser import QueryParser
 from Rocchio import Rocchio
 from Eval import Eval
+import os
 
 def main():
     parser = argparse.ArgumentParser()
@@ -19,7 +20,7 @@ def main():
     t0 = time.time()
     queryParser = QueryParser(args.m)
     vsm = VSM(args.m, k=Param.K, b=Param.B)
-    rocchio = Rocchio(Param.ALPHA, Param.BETA, Param.GAMMA, Param.TOP_K, Param.LAST_K)
+    rocchio = Rocchio(Param.ALPHA, Param.BETA, Param.GAMMA, Param.TOP_K, Param.LAST_K, args.m, args.d)
     ev = Eval(args.m, ansPath="queries/ans_train.csv")
     print("init time", time.time() - t0)
     queries = queryParser.getQueries(args.i)
@@ -40,8 +41,7 @@ def main():
     for i in range(Param.ITERS):
         t0 = time.time()
         for j in range(len(q)):
-            q[j] = rocchio.update(q[j], tfidf[j])
-            res[j] = ev.getResult(q[j], tfidf[j])
+            res[j] = rocchio.update(res[j])
         print("[Iter %2d]: %3f | Using %3f second" % (i, ev.test(res), time.time() - t0))
 
 

@@ -34,8 +34,11 @@ class Eval(object):
     
     def test(self, results):
         total = 0
+        idd = 0
         for x, y in zip(results, self.ans):
+            print(idd, average_precision_score(y, x))
             total += average_precision_score(y, x)
+            idd += 1
         return total / self.ans.shape[0]
     
     def output(self, results, filePath):
@@ -44,7 +47,7 @@ class Eval(object):
         for i in range(len(results)):
             line = "%03d," % (i + 11)
             rnk = np.flip(results[i].argsort(axis=0), axis=0)
-            line += " ".join([self.indx2file[x] for x in rnk[: Param.MAX_RESULT, :].ravel().tolist()]) + "\n"
+            line += " ".join([self.indx2file[x] for x in rnk[: Param.MAX_RESULT].ravel().tolist()]) + "\n"
             lines.append(line)
         with open(filePath, "w") as f:
             f.writelines(lines)
