@@ -5,15 +5,15 @@ MAX_RESULT = 100
 
 # Rocchio
 ALPHA = 1
-BETA = 0.5
+BETA = 0.8
 GAMMA = 0
-TOP_K = 10
+TOP_K = 40
 LAST_K = 1
-ITERS = 1
+ITERS = 10
 
 # VSM
-B = 0.5
-K = 10
+B = 0.75
+K = 1.2
 
 ### Local
 CACHE = 1

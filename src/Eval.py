@@ -30,8 +30,7 @@ class Eval(object):
                     
     
     def getResult(self, query, tfidf):
-        cosSim = cosine_similarity(tfidf, query.reshape(1, -1))
-        return cosSim
+        return np.sum(tfidf, axis=1)
     
     def test(self, results):
         total = 0
