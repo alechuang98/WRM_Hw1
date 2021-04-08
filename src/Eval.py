@@ -41,11 +41,11 @@ class Eval(object):
     
     def output(self, results, filePath):
         lines = []
-        lines.append("query_id,retrieved_docs")
+        lines.append("query_id,retrieved_docs\n")
         for i in range(len(results)):
             line = "%03d," % (i + 1)
             rnk = np.flip(results[i].argsort(axis=0), axis=0)
-            line += " ".join([self.indx2file[x] for x in rnk[: Param.MAX_RESULT, :].ravel().tolist()])
+            line += " ".join([self.indx2file[x] for x in rnk[: Param.MAX_RESULT, :].ravel().tolist()]) + "\n"
             lines.append(line)
         with open(filePath, "w") as f:
             f.writelines(lines)
