@@ -19,7 +19,7 @@ def main():
     t0 = time.time()
     queryParser = QueryParser(args.m)
     vsm = VSM(args.m, k=Param.K, b=Param.B)
-    rocchio = Rocchio(Param.ALPHA, Param.BETA, Param.GAMMA, Param.TOP_K, Param.LAST_K)
+    rocchio = Rocchio(Param.ALPHA, Param.BETA, Param.GAMMA, Param.TOPfd_K, Param.LAST_K)
     ev = Eval(args.m, ansPath="queries/ans_train.csv")
     print("init time", time.time() - t0)
     queries = queryParser.getQueries(args.i)
