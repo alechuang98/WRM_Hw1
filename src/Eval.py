@@ -43,7 +43,7 @@ class Eval(object):
         lines = []
         lines.append("query_id,retrieved_docs\n")
         for i in range(len(results)):
-            line = "%03d," % (i + 1)
+            line = "%03d," % (i + 11)
             rnk = np.flip(results[i].argsort(axis=0), axis=0)
             line += " ".join([self.indx2file[x] for x in rnk[: Param.MAX_RESULT, :].ravel().tolist()]) + "\n"
             lines.append(line)
