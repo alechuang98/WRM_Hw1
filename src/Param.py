@@ -5,9 +5,9 @@ MAX_RESULT = 100
 
 # Rocchio
 ALPHA = 1
-BETA = 0.5
+BETA = 0.75
 GAMMA = 0
-TOP_K = 10
+TOP_K = 5
 LAST_K = 1
 ITERS = 1
 
