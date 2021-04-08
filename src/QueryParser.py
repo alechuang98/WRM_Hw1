@@ -14,6 +14,13 @@ class QueryParser(object):
 
     def string2index(self, string):
         return [self.dic[x] for x in string]
+    
+    def getQuery(self, string):
+        res = []
+        token = [self.dic[x] if x in self.dic else 0 for x in string]
+        for i in range(len(token) - 1):
+            res.append([token[i], token[i + 1]])
+        return res
 
     def getQueries(self, filePath="queries/query-train.xml"):
         tree = et.parse(filePath)

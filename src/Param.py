@@ -7,7 +7,7 @@ MAX_RESULT = 100
 ALPHA = 1
 BETA = 0.8
 GAMMA = 0
-TOP_K = 30
+TOP_K = 10
 LAST_K = 1
 ITERS = 1
 

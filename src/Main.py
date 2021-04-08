@@ -40,7 +40,7 @@ def main():
     for i in range(Param.ITERS):
         t0 = time.time()
         for j in range(len(q)):
-            res[j] = rocchio.update(res[j])
+            res[j] = rocchio.update(res[j], vsm, queryParser)
         ev.output(res, args.o)
 
 

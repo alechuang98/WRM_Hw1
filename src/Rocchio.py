@@ -18,24 +18,34 @@ class Rocchio(object):
         self.d = d
         print("Rocchio object init finish")
 
-    def update_old(self, query, tfidf):
+    def update_1(self, query, tfidf):
         cosSim = cosine_similarity(tfidf, query.reshape(1, -1))
         rnk = np.flip(cosSim.argsort(axis=0), axis=0)
         dr = tfidf[rnk[: self.top_k, :]].mean(axis=0)
         dn = tfidf[rnk[-self.last_k :, :]].mean(axis=0)
         return query * self.alpha + dr * self.beta - dn * self.gamma
 
-    def update(self, result):
+    def update_2(self, tfidf, result):
         rnk = np.flip(result.argsort(axis=0), axis=0)
-        
+        dr = tfidf[rnk[: self.top_k]].mean(axis=0)
+        dr = dr / np.max(dr)
+        return tfidf * self.alpha + dr * self.beta * tfidf
+
+    def update(self, result, vsm, queryParser):
         freq = {}
+        rnk = np.flip(result.argsort(axis=0), axis=0)
+        query = []
         for i in rnk[: self.top_k]:
             result[i] += 1e9
             tree = et.parse(os.path.join(self.d, self.indx2file[i]))
             root = tree.getroot()
             title = root.find("doc/title").text.strip("\n")
-            for c in Param.stopWords:
-                title = title.replace(c, "")
+            query += queryParser.getQuery(title)
+
+        tf = vsm.getTF(query)
+        idf = vsm.getIDF(query)
+
+        result += (result + np.sum(tf * idf, axis=1) / self.top_k) * self.alpha
         return result
                 
             

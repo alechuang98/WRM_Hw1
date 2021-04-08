@@ -30,7 +30,8 @@ class Eval(object):
                     
     
     def getResult(self, query, tfidf):
-        return np.sum(tfidf, axis=1)
+        w = np.ones(tfidf.shape[1])
+        return np.sum(tfidf * w, axis=1)
     
     def test(self, results):
         total = 0

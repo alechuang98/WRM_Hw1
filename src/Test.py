@@ -41,7 +41,7 @@ def main():
     for i in range(Param.ITERS):
         t0 = time.time()
         for j in range(len(q)):
-            res[j] = rocchio.update(res[j])
+            res[j] = rocchio.update(res[j], vsm, queryParser)
         print("[Iter %2d]: %3f | Using %3f second" % (i, ev.test(res), time.time() - t0))
 
 
