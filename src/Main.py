@@ -32,6 +32,12 @@ def main():
         tf = vsm.getTF(query)
         idf = vsm.getIDF(query)
         tfidf[j] = tf * idf
+        w = np.ones(len(query))
+        if j in Param.criticalWeight:
+            print(j, idf[0], tf[0])
+            print(query)
+            w[Param.criticalWeight[j]] *= 3
+        tfidf[j] *= w
         q[j] = idf
     for j in range(len(q)):
         res[j] = ev.getResult(q[j], tfidf[j])

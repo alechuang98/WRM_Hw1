@@ -27,7 +27,8 @@ class QueryParser(object):
         root = tree.getroot()
         res = []
         for t in root.findall("topic"):
-            query = [t.find("title").text]
+            # query = self.getQuery(t.find("title").text)
+            query = []
             concepts = t.find("concepts").text.strip("。 \n").split("、")
             for concept in concepts:
                 converted = self.string2index(concept)

@@ -36,12 +36,14 @@ class Rocchio(object):
         rnk = np.flip(result.argsort(axis=0), axis=0)
         query = []
         for i in rnk[: self.top_k]:
-            result[i] += 1e9
             tree = et.parse(os.path.join(self.d, self.indx2file[i]))
+            
             root = tree.getroot()
             title = root.find("doc/title").text.strip("\n")
+            print(title, result[i])
+            print(os.path.join(self.d, self.indx2file[i]))
             query += queryParser.getQuery(title)
-
+        print("-------------------")
         tf = vsm.getTF(query)
         idf = vsm.getIDF(query)
 
