@@ -36,5 +36,4 @@ def getFileLen(inverted):
         if key <= Param.TOTAL_VOCAB:
             for v in value:
                 res[v[0]] += v[1]
-    print(res)
     return res

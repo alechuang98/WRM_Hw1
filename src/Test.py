@@ -23,7 +23,7 @@ def main():
     rocchio = Rocchio(Param.ALPHA, Param.BETA, Param.GAMMA, Param.TOP_K, Param.LAST_K, args.m, args.d)
     ev = Eval(args.m, ansPath="queries/ans_train.csv")
     print("init time", time.time() - t0)
-    queries = queryParser.getQueries(args.i)
+    queryIds, queries = queryParser.getQueries(args.i)
 
     tfidf = [None] * len(queries)
     q = [None] * len(queries)

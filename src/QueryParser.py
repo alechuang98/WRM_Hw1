@@ -26,7 +26,9 @@ class QueryParser(object):
         tree = et.parse(filePath)
         root = tree.getroot()
         res = []
+        queryIds = []
         for t in root.findall("topic"):
+            queryIds.append(t.find("number").text[-3 :])
             query = [t.find("title").text]
             concepts = t.find("concepts").text.strip("。 \n").split("、")
             for concept in concepts:
@@ -39,4 +41,4 @@ class QueryParser(object):
                 if  concept == "ＮＢＡ":
                     query.append([self.dic["NBA"], -1])
             res.append(query)
-        return res
+        return queryIds, res
