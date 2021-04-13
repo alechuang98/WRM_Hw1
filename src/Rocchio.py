@@ -16,7 +16,7 @@ class Rocchio(object):
             lines = f.readlines()
             self.indx2file = [line.strip(" \n") for line in lines]
         self.d = d
-        print("Rocchio object init finish")
+        # print("Rocchio object init finish")
 
     def update_1(self, query, tfidf):
         cosSim = cosine_similarity(tfidf, query.reshape(1, -1))

@@ -12,7 +12,7 @@ class VSM(object):
         self.inverted = Parser.getInverted(os.path.join(model, "inverted-file"), cache=Param.CACHE)
         self.fileLen = Parser.getFileLen(self.inverted)
         self.avgLen = np.sum(self.fileLen) / Param.FILE_NUM
-        print("VSM object init finish")
+        # print("VSM object init finish")
 
     def getTF(self, query):
         ctd = np.zeros((Param.FILE_NUM, len(query)))

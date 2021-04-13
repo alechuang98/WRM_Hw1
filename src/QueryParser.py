@@ -10,7 +10,7 @@ class QueryParser(object):
             for i, line in enumerate(lines):
                 # english doesn't matter
                 self.dic[line.strip("\n")] = i
-        print("QueryParser object init finish")
+        # print("QueryParser object init finish")
 
     def string2index(self, string):
         return [self.dic[x] for x in string]

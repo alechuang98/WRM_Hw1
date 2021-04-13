@@ -15,14 +15,15 @@ def main():
     parser.add_argument("-o", type=str, default="results/res_train.xml", help="Output")
     parser.add_argument("-m", type=str, default="model")
     parser.add_argument("-d", type=str, default="CIRB010")
+    parser.add_argument("-k", type=float, required=True)
+    parser.add_argument("-b", type=float, required=True)
 
     args = parser.parse_args()
     t0 = time.time()
     queryParser = QueryParser(args.m)
-    vsm = VSM(args.m, k=Param.K, b=Param.B)
+    vsm = VSM(args.m, k=args.k, b=args.b)
     rocchio = Rocchio(Param.ALPHA, Param.BETA, Param.GAMMA, Param.TOP_K, Param.LAST_K, args.m, args.d)
     ev = Eval(args.m, ansPath="queries/ans_train.csv")
-    print("init time", time.time() - t0)
     queryIds, queries = queryParser.getQueries(args.i)
 
     tfidf = [None] * len(queries)
@@ -36,14 +37,15 @@ def main():
         q[j] = idf
     for j in range(len(q)):
         res[j] = ev.getResult(q[j], tfidf[j])
-    print("[Iter %2d]: %3f" % (-1, ev.test(res)))
+    
 
-    for i in range(Param.ITERS):
-        t0 = time.time()
-        for j in range(len(q)):
-            res[j] = rocchio.update(res[j], vsm, queryParser)
-        print("[Iter %2d]: %3f | Using %3f second" % (i, ev.test(res), time.time() - t0))
+    if args.r:
+        for i in range(Param.ITERS):
+            t0 = time.time()
+            for j in range(len(q)):
+                res[j] = rocchio.update(res[j], vsm, queryParser)
 
+    print("[b = %2f | k = %2f]: %3f" % (args.b, args.k, ev.test(res)))
 
 if __name__ == "__main__":
     main()
